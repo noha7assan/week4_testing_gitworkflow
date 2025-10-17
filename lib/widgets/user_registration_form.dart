@@ -18,14 +18,23 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   String _message = '';
 
   bool isValidEmail(String email) {
-    return email.contains('@');
+    final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return regex.hasMatch(email);
   }
 
   bool isValidPassword(String password) {
-    return true;
+    final regex = RegExp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$');
+    return regex.hasMatch(password);
   }
 
   Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        _message = 'Please fix the errors before submitting.';
+      });
+      return;
+    }
+
     setState(() {
       _isLoading = true;
       _message = '';
