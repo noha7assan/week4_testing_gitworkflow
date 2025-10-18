@@ -28,9 +28,14 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   void addItem(String id, String name, double price, {double discount = 0.0}) {
     setState(() {
-      _items.add(
-        CartItem(id: id, name: name, price: price, discount: discount),
-      );
+      final index = _items.indexWhere((item) => item.id == id);
+      if (index != -1) {
+        _items[index].quantity += 1;
+      } else {
+        _items.add(
+          CartItem(id: id, name: name, price: price, discount: discount),
+        );
+      }
     });
   }
 
