@@ -81,7 +81,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
   }
 
   double get totalAmount {
-    return subtotal + totalDiscount;
+    double total = 0;
+    for (var item in _items) {
+      final discountedPrice = item.price * (1 - item.discount);
+      total += discountedPrice * item.quantity;
+    }
+    return total;
   }
 
   int get totalItems {
